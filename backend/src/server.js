@@ -2,6 +2,7 @@ import express from "express";
 import cookieparser from "cookie-parser"
 import "dotenv/config";
 import autoRoutes from "./routes/auto.route.js";
+import userRoutes from "./routes/user.route.js";    
 import { connectDB } from "./lib/db.js";
 
 const app = express();
@@ -12,7 +13,8 @@ app.use(express.json());
 app.use(cookieparser());
 
 // ✅ Routes
-app.use("/api/auth", autoRoutes);
+app.use("/api/auth", autoRoutes); 
+app.use("/api/users", userRoutes)    
 
 // ✅ Server start & DB connect
 app.listen(PORT, () => {

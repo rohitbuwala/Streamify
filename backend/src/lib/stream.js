@@ -19,3 +19,9 @@
             console.error("Error upsertUser Stream user: " , error)
         }
     }
+
+// Todo
+
+    export const generateStreamToken = (userId) => {
+        
+    }

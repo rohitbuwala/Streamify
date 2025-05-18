@@ -1,4 +1,5 @@
-import User from "../models/User";
+
+import {generateStreamToken} from "../lib/stream.js"
 
 export async function getStreamToken(req, res) {
     try {

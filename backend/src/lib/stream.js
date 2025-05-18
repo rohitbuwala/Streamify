@@ -23,5 +23,11 @@
 // Todo
 
     export const generateStreamToken = (userId) => {
-        
+        try {
+           const userIdstr = userId.toString();
+            return streamclient.createToken(userIdstr);
+
+        } catch (error) {
+            console.error("Error generating Stream token: ", error)
+        }
     }

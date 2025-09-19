@@ -11,11 +11,11 @@ router.use(protectRoute)
 
 router.get("/", getRecommendedUsers)
 router.get("/friends", getMyFriends)
+// user.route.js
+router.post("/friend-request/:id", sendFriendRequest)
+router.put("/friend-request/:id/accept", acceptedFriendRequest)
 
-router.post("/friends-request/:id", sendFriendRequest)
-router.put("/friends-request/:id/accept", acceptedFriendRequest)
-
-router.get("/friends-requests", getFriendRequest)
+router.get("/friend-requests", getFriendRequest)
 router.get("/outgoing-friend-requests", getOutGoingFriendReqs)
 
 export default router;

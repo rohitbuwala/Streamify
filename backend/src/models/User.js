@@ -25,11 +25,11 @@ const userSchema = new mongoose.Schema({
         type: String,
         default: "",
     },
-    nativelanguage: {
+    nativeLanguage: {
         type: String,
         default:   ""
     },
-    learninglanguage: {
+    learningLanguage: {
         type: String,
         default: ""
     },
@@ -41,7 +41,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         default: false,
     },
-    friend: [
+    friends: [
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: "User"

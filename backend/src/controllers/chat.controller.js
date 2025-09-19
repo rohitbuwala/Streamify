@@ -3,7 +3,7 @@ import {generateStreamToken} from "../lib/stream.js"
 
 export async function getStreamToken(req, res) {
     try {
-        const token = generateStreamToken(req.user.id)
+       const token = generateStreamToken(req.user._id || req.user.id);
         res.status(200).json({token})
 
 

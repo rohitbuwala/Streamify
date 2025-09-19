@@ -17,9 +17,9 @@ export async function signup (req , res ) {
  
     // check mail
  
-    const emailRegex = /^[^/s@]+@[^\s@]+\.[^\s@]+$/;
+    const emailRegexs = /^[^/s@]+@[^\s@]+\.[^\s@]+$/;
  
-    if(!emailRegex.test(email)){
+    if(!emailRegexs.test(email)){
      return res.status(400).json({message: "Invalid email format"})
     }
  
@@ -49,14 +49,14 @@ export async function signup (req , res ) {
     })
 
 
-    const token = jwt.sign({useId:newUser._id}, process.env.JWT_SECRET_KEY, {
+    const token = jwt.sign({userId:newUser._id}, process.env.JWT_SECRET_KEY, {
     expiresIn: "7d"        
     }) 
 
     res.cookie("jwt", token, {
          maxAge: 7 *24 * 60 * 60 * 1000,
          httpOnly : true,
-         sameSite: "strict",
+         sameSite:  "lax"    ,                      // "strict",
          secure: process.env.NODE_ENV === "production"
     } )
 
@@ -100,7 +100,7 @@ export async function login(req , res ) {
     res.cookie("jwt", token, {
          maxAge: 7 *24 * 60 * 60 * 1000,
          httpOnly : true,
-         sameSite: "strict",
+         sameSite: "lax",
          secure: process.env.NODE_ENV === "production"
     } )
 
@@ -159,7 +159,7 @@ export async function onboard (req, res ) {
        try {
          await upsertStreamUse({
              id: updatedUser._id.toString(),
-             name: updatedUser.fullName.toString,
+             name: updatedUser.fullName.toString(),
              Image: updatedUser.profilePic || "",
          })
          console.log(`Stream user created updated after onboard for ${updatedUser.fullName}`);
@@ -172,4 +172,4 @@ export async function onboard (req, res ) {
         console.error("Error in onboard controller", error.message);
         return res.status(500).json({message: "Internal server error in onboard"})
     }
-}
+}   

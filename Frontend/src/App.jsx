@@ -1,72 +1,135 @@
-import { Route, Routes } from 'react-router'
-//import { useEffect, useState } from 'react'
+import { Navigate, Route, Routes } from "react-router"; // 👈 yaha react-router-dom likhna h
+import HomePage from "./pages/HomePage.jsx";
+import SignUpPage from "./pages/SignUpPage.jsx";
+import LoginPage from "./pages/LoginPage.jsx";
+import NotificationPage from "./pages/NotificationPage.jsx";
+import CallPage from "./pages/CallPage.jsx";
+import ChatPage from "./pages/ChatPage.jsx";
+import OnboardingPage from "./pages/OnboardingPage.jsx";
+import FriendsPage from "./pages/FriendsPage.jsx"; // ✅ add kiya
 
-import HomePage from "./pages/HomePage.jsx"
-import SignUpPage from "./pages/SignUpPage.jsx"
-import LoginPage from "./pages/LoginPage.jsx"
-import NotificationPage from "./pages/NotificationPage.jsx"
-import CallPage from "./pages/CallPage.jsx"
-import ChatPage from "./pages/ChatPage.jsx"
-import OnboardingPage from './pages/OnboardingPage.jsx'
-import  {useQuery} from "@tanstack/react-query"
-import {axiosInstance} from "./lib/axios.js"  
-
-
-import { Toaster } from "react-hot-toast"
+import { Toaster } from "react-hot-toast";
+import PageLoader from "./components/PageLoader.jsx";
+import useAuthUser from "./hooks/useAuthUser.js";
+import Layout from "./components/Layout.jsx";
+import { useThemeStore } from "./store/useThemeStore.js";
 
 const App = () => {
+  const { isLoading, authUser } = useAuthUser();
+  const { theme } = useThemeStore();
 
-  // tanstack query cresh course 
-  //delete  => post put delete 
-  // get =
-  const {data , isLoading, error} = useQuery({queryKey: ["todos"],
-    queryFn: async() => {
+  const isAuthenticated = Boolean(authUser);
+  const isOnboarded = authUser?.isOnboarded === "true" || authUser?.isOnboarded === true;
 
-      const res = await axiosInstance.get("http://localhost:5001/api/auth/me")
-   
-      return res.data
-    },
-    retry: false
-  });
+  if (isLoading) return <PageLoader />;
 
-console.log(data)
-  // const [data , setdata] = useState([]);
-  // const [isLoading, setIsLoading] = useState(false);
-  // const [error, setError] = useState(null)
-
-  // useEffect( () => {
-  //   const getData = async () => {
-  //     try {
-  //       const data = await fetch("https://jsonplaceholder.typicode.com/todos")
-  //       const json = await data.json()
-  //     } catch (error) {
-  //       setError(error)
-  //     }finally{
-  //       setIsLoading(false)
-  //     }
-  //   }
-  // })
   return (
-      <>
-     <div className="p-5 text-center" data-theme="night">
-  
-
-   
+    <div className="h-screen" data-theme={theme}>
       <Routes>
-        <Route path='/'  element={<HomePage/>} />
-        <Route path='/signup'  element={<SignUpPage/>} />
-        <Route path='/login'  element={<LoginPage/>} />
-        <Route path='/notfications'  element={<NotificationPage/>} />
-        <Route path='/call'  element={<CallPage/>} />
-        <Route path='/chat'  element={<ChatPage/>} />
-        <Route path='/onboarding'  element={<OnboardingPage/>} />
+        {/* Home route */}
+        <Route
+          path="/"
+          element={
+            isAuthenticated && isOnboarded ? (
+              <Layout showSidebar={true}>
+                <HomePage />
+              </Layout>
+            ) : (
+              <Navigate to={!isAuthenticated ? "/login" : "/onboarding"} />
+            )
+          }
+        />
+
+        {/* ✅ Friends route */}
+        <Route
+          path="/friends"
+          element={
+            isAuthenticated && isOnboarded ? (
+              <Layout showSidebar={true}>
+                <FriendsPage />
+              </Layout>
+            ) : (
+              <Navigate to={!isAuthenticated ? "/login" : "/onboarding"} />
+            )
+          }
+        />
+
+        {/* Signup */}
+        <Route
+          path="/signup"
+          element={
+            !isAuthenticated ? <SignUpPage /> : <Navigate to={isOnboarded ? "/" : "/onboarding"} />
+          }
+        />
+
+        {/* Login */}
+        <Route
+          path="/login"
+          element={
+            !isAuthenticated ? <LoginPage /> : <Navigate to={isOnboarded ? "/" : "/onboarding"} />
+          }
+        />
+
+        {/* Notifications */}
+        <Route
+          path="/notifications"
+          element={
+            isAuthenticated && isOnboarded ? (
+              <Layout showSidebar={true}>
+                <NotificationPage />
+              </Layout>
+            ) : (
+              <Navigate to={!isAuthenticated ? "/login" : "/onboarding"} />
+            )
+          }
+        />
+
+        {/* Call */}
+        <Route
+          path="/call/:id"
+          element={
+            isAuthenticated && isOnboarded ? (
+              <CallPage />
+            ) : (
+              <Navigate to={!isAuthenticated ? "/login" : "/onboarding"} />
+            )
+          }
+        />
+
+        {/* Chat */}
+        <Route
+          path="/chat/:id"
+          element={
+            isAuthenticated && isOnboarded ? (
+              <Layout showSidebar={false}>
+                <ChatPage />
+              </Layout>
+            ) : (
+              <Navigate to={!isAuthenticated ? "/login" : "/onboarding"} />
+            )
+          }
+        />
+
+        {/* Onboarding */}
+        <Route
+          path="/onboarding"
+          element={
+            isAuthenticated ? (
+              !isOnboarded ? (
+                <OnboardingPage />
+              ) : (
+                <Navigate to="/" />
+              )
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
+        />
       </Routes>
 
-      <Toaster/>
-</div>
-    </>
-  )
-  
-}
+      <Toaster />
+    </div>
+  );
+};
 
-export default App
+export default App;

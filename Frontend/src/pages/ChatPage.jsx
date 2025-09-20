@@ -16,8 +16,8 @@ import {
 import { StreamChat } from "stream-chat";
 import toast from "react-hot-toast";
 
-import ChatLoader from "../Components/ChatLoader";
-import CallButton from "../Components/CallButton";
+import ChatLoader from "../components/ChatLoader";
+import CallButton from "../components/CallButton";
 
 const STREAM_API_KEY = import.meta.env.VITE_STREAM_API_KEY;
 
@@ -45,29 +45,17 @@ const ChatPage = () => {
 
         const client = StreamChat.getInstance(STREAM_API_KEY);
 
-        // await client.connectUser(
-        //   {
-        //     id: authUser._id,
-        //     name: authUser.fullName,
-        //     image: authUser.profilePic,
-        //   },
-        //   tokenData.token
-        // );
-
         await client.connectUser(
-       {
-         id: authUser._id || authUser.id,   // ✅ safe side
-         name: authUser.fullName,
-         image: authUser.profilePic,
-       },
-        tokenData.token
-      );
-
+          {
+            id: authUser._id,
+            name: authUser.fullName,
+            image: authUser.profilePic,
+          },
+          tokenData.token
+        );
 
         //
-       // const channelId = [authUser._id, targetUserId].sort().join("-");
-        const channelId = [authUser._id || authUser.id, targetUserId].sort().join("-");
-
+        const channelId = [authUser._id, targetUserId].sort().join("-");
 
         // you and me
         // if i start the chat => channelId: [myId, yourId]

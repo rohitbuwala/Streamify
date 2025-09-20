@@ -140,16 +140,19 @@ export async function onboard (req, res ) {
       });
     }
 
-        const updatedUser = await User.findByIdAndUpdate(userId, {
-            // fullName,
-            // bio,
-            // nativeLanguage,
-            // learningLanguage,
-            // location,
+       const updatedUser = await User.findByIdAndUpdate(
+        userId,
+             {
+                fullName,
+                bio,
+                nativeLanguage,
+                 learningLanguage,
+                location,
+            isOnboarded: true,
+                 },
+             { new: true }
+                );
 
-            ...req.body,
-            isOnboarded: true
-        }, {new: true})
 
         if(!updatedUser) {
             return res.status(404).json({message: "User not found"})

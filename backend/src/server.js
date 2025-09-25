@@ -1,37 +1,3 @@
-// import express from "express";
-// import cookieparser from "cookie-parser"
-// import "dotenv/config";
-// import authRoutes from "./routes/auth.route.js";
-// import userRoutes from "./routes/user.route.js";    
-// import chatRoutes from "./routes/chat.route.js";    
-// import { connectDB } from "./lib/db.js";
-// import cors from "cors";
-// import path from "path";
-
-// const app = express();
-// const PORT = process.env.PORT || 5001;
-
-// // ✅ JSON parser
-// app.use(cors({
-//     origin: "http://localhost:5173",
-//     credentials: true, // allow frontend to send cookies
-// }))
-// app.use(express.json());
-// app.use(cookieparser());
-
-// // ✅ Routes
-// app.use("/api/v1/auth", authRoutes); 
-// app.use("/api/v1/users", userRoutes)    
-// app.use("/api/v1/chat", chatRoutes)
-
-// // ✅ Server start & DB connect
-// app.listen(PORT, () => {
-//     console.log(`Server is running on port ${PORT}`);
-//     connectDB(); // Call the function
-// });
-
-
-
 import express from "express";
 import "dotenv/config";
 import cookieParser from "cookie-parser";

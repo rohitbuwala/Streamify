@@ -165,7 +165,7 @@ export async function onboard (req, res ) {
              name: updatedUser.fullName.toString(),
              Image: updatedUser.profilePic || "",
          })
-         console.log(`Stream user created updated after onboard for ${updatedUser.fullName}`);
+         .log(`Stream user created updated after onboard for ${updatedUser.fullName}`);
        } catch (error) {
         console.log("Error updating stream user after onboard", error.message);
        }

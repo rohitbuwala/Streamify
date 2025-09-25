@@ -27,7 +27,7 @@ const { data: friends = [], isLoading: loadingFriends } = useQuery({
   queryKey: ["friends"],
   queryFn: getUserFriends,
   select: (data) => {
-    console.log("Friends API Response:", data);  // 👈 ye lagao
+   // console.log("Friends API Response:", data);  // 👈 ye lagao
     return Array.isArray(data) ? data : [];
   },
 });
@@ -39,7 +39,7 @@ const { data: recommendedUsers = [], isLoading: loadingUsers } = useQuery({
   queryKey: ["users"],
   queryFn: getRecommendedUsers,
   select: (data) => {
-    console.log("Recommended Users API Response:", data); // 👈 ye lagao
+    //console.log("Recommended Users API Response:", data); // 👈 ye lagao
     if (Array.isArray(data)) return data;
     if (data?.users && Array.isArray(data.users)) return data.users;
     if (data?.data && Array.isArray(data.data)) return data.data;

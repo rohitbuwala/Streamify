@@ -29,7 +29,7 @@ const useAuthUser = () => {
     queryFn: getAuthUser,
     retry: false, // auth check
   });
- console.log("AuthUser Data ===>", authUser.data);
+ //console.log("AuthUser Data ===>", authUser.data);
 
   // return { isLoading: authUser.isLoading, authUser: authUser.data?.user };
  return { isLoading: authUser.isLoading, authUser: authUser.data?.user };

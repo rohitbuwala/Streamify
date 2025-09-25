@@ -5,7 +5,7 @@ import FriendRequest from "../models/FriendRequest.js";
 // Get Recommended Users
 // ===========================
 export async function getRecommendedUsers(req, res) {
-  console.log("Current User in Recommended API ===>", req.user);
+  // console.log("Current User in Recommended API ===>", req.user);
 
   try {
     const currentUserId = req.user.id;
@@ -62,8 +62,8 @@ export async function sendFriendRequest(req, res) {
     const myId = req.user.id;
     const { id: recipientId } = req.params;
 
-    console.log("Frontend se aya recipientId:", recipientId);
-    console.log("Current user myId:", myId);
+    // console.log("Frontend se aya recipientId:", recipientId);
+    // console.log("Current user myId:", myId);
 
     if (!recipientId) {
       return res.status(400).json({ message: "Recipient ID is required" });
@@ -77,7 +77,7 @@ export async function sendFriendRequest(req, res) {
     }
 
     const recipient = await User.findById(recipientId);
-    console.log("Recipient fetched:", recipient);
+    // console.log("Recipient fetched:", recipient);
 
     if (!recipient) {
       return res.status(400).json({ message: "Recipient not found" });

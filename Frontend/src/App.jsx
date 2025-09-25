@@ -9,10 +9,10 @@ import OnboardingPage from "./pages/OnboardingPage.jsx";
 import FriendsPage from "./pages/FriendsPage.jsx"; // ✅ add kiya
 
 import { Toaster } from "react-hot-toast";
-import PageLoader from "./components/PageLoader.jsx";
 import useAuthUser from "./hooks/useAuthUser.js";
 import Layout from "./components/Layout.jsx";
 import { useThemeStore } from "./store/useThemeStore.js";
+import PageLoader from "./components/PageLoader.jsx";
 
 const App = () => {
   const { isLoading, authUser } = useAuthUser();

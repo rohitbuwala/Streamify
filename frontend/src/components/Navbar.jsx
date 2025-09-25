@@ -1,110 +1,49 @@
-// import { useLocation } from "react-router";
-// import useAuthUser from "../hooks/useAuthUser"
-// import { BellIcon, Link, LogOutIcon, ShipWheelIcon } from "lucide-react";
-// import ThemeSelector from "./ThemeSelector";
-// import useLogout from "../hooks/useLogout";
-
-
-// const Navbar = () => {
-
-//   const {authUser} = useAuthUser();
-//   const location = useLocation();
-//   const isChatpage = location.pathname?.startsWith('/chat/');
-
-//   // const queryClient = useQueryClient();
-
-//   // const {mutate:logoutMutation} = useMutation({
-//   //   mutationFn: logout,
-//   //   onSuccess: () => queryClient.invalidateQueries({queryKey: ['authUser']})
-//   // })
-
-//   const {logoutMutation} = useLogout()
-
-//   return (
-//     <nav className="bg-base-200 border-b border-base-300 sticky top-0 h-16 flex items-center">
-//       <div className="container mx-auto sm:px-6 lg:px-8">
-//         <div className="flex justify-center items-end w-full">
-//           {/* LOGO - ONLY IN THE CHAT PAGE */}
-//           {isChatpage && (
-//             <div className="pl-5">
-//               <Link to='/' className="flex items-center gap-2.5">
-//               <ShipWheelIcon className="size-9 text-primary"/>
-//               <span className="text-3xl font-bold font-mono bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary tracking-wider">
-//               Streamfy
-//               </span>
-//               </Link>
-//             </div>
-//           )}
-
-//           <div className="flex-1 flex justify-center gap-3 sm:gap-4">
-//           <Link to={"/notifications"}>
-//           <button className="btn btn-ghost btn-circle">
-//           <BellIcon className="h-6 text-base-content opacity-70"/>
-//           </button>
-//           </Link>
-//           </div>
-
-//             {/* ToDo */}
-//           <ThemeSelector/>
-//           <div className="avatar">
-//             <div className="w-9 rounded-full">
-//             <img src={authUser?.profilePic} alt="User Avatar" rel="noreferrer" />
-//             </div>
-//           </div>
-
-//           {/* logout button */}
-//           <button className="btn btn-ghost btn-circle" onClick={logoutMutation}>
-//             <LogOutIcon className="h-6 w-6 text-base-content opacity-70"/>
-//           </button>
-//       </div>
-//       </div>
-//     </nav>
-//   )
-// }
-
-// export default Navbar
-
+import { MenuIcon, LogOutIcon, BellIcon, ShipWheelIcon } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import useAuthUser from "../hooks/useAuthUser";
-import { BellIcon, LogOutIcon, ShipWheelIcon } from "lucide-react";
 import ThemeSelector from "./ThemeSelector";
 import useLogout from "../hooks/useLogout";
 
-const Navbar = () => {
+const Navbar = ({ onToggleSidebar }) => {
   const { authUser } = useAuthUser();
   const location = useLocation();
   const isChatpage = location.pathname?.startsWith("/chat/");
-
   const { logoutMutation } = useLogout();
 
   return (
-    <nav className="bg-base-200 border-b border-base-300 sticky top-0 z-50 h-16 flex items-center ">
+    <nav className="bg-base-200 border-b border-base-300 sticky top-0 z-50 h-16 flex items-center shadow-md">
       <div className="container mx-auto px-4 flex items-center justify-between">
-        {/* LEFT - Logo (only visible on chat page) */}
-        {isChatpage && (
-          <Link to="/" className="flex items-center gap-2">
-            <ShipWheelIcon className="w-8 h-8 text-primary" />
-            <span className="text-2xl font-bold font-mono bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary">
-              Streamify
-            </span>
-          </Link>
-        )}
+        {/* Left side: Hamburger + Logo */}
+        <div className="flex items-center gap-3">
+          <button
+            className="btn btn-ghost lg:hidden"
+            onClick={onToggleSidebar}
+          >
+            <MenuIcon className="w-6 h-6" />
+          </button>
 
-        {/* CENTER - Actions (Notification) */}
+          {isChatpage && (
+            <Link to="/" className="flex items-center gap-2">
+              <ShipWheelIcon className="w-7 h-7 text-primary" />
+              <span className="text-2xl font-bold font-mono bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary">
+                Streamfy
+              </span>
+            </Link>
+          )}
+        </div>
+
+        {/* Right side: Actions */}
         <div className="flex items-center gap-4">
           <Link to="/notifications">
             <button className="btn btn-ghost btn-circle hover:bg-base-300 transition">
               <BellIcon className="h-6 w-6 text-base-content opacity-80" />
             </button>
           </Link>
-        </div>
 
-        {/* RIGHT - Theme selector, avatar & logout */}
-        <div className="flex items-center gap-4">
           <ThemeSelector />
 
           <div className="avatar">
-            <div className="w-10 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
+            <div className="w-9 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
               <img src={authUser?.profilePic} alt="User Avatar" />
             </div>
           </div>

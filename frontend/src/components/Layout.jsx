@@ -1,22 +1,32 @@
-import  Sidebar  from './Sidebar.jsx'
-import Navbar from './Navbar.jsx'
+import { useState } from "react";
+import Sidebar from "./Sidebar.jsx";
+import Navbar from "./Navbar.jsx";
 
-const Layout = ({children,showSidebar=false}) => {
+const Layout = ({ children, showSidebar = false }) => {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
   return (
-    <div className='min-h-screen'>
-        <div className='flex'>
-      {showSidebar &&  <Sidebar/>}
+    <div className="min-h-screen flex relative">
+      {/* Backdrop when sidebar is open on mobile */}
+      {showSidebar && (
+        <div
+          className={`fixed inset-0 bg-black/40 z-40 lg:hidden ${isSidebarOpen ? "block" : "hidden"}`}
+          onClick={() => setIsSidebarOpen(false)}
+        />
+      )}
 
-      <div className='flex-1 flex-col'>
-        <Navbar/>
+      {/* Sidebar is z-50, always above navbar */}
+      {showSidebar && (
+        <Sidebar isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} />
+      )}
 
-        <main className='flex-1 overflow-y-auto'>
-            {children}
-        </main>
+      <div className="flex flex-col flex-1 relative z-30">
+        {/* Navbar stays below sidebar on mobile */}
+        <Navbar onToggleSidebar={() => setIsSidebarOpen((s) => !s)} />
+        <main className="flex-1 overflow-y-auto">{children}</main>
       </div>
-        </div>
     </div>
-  )
-}
+  );
+};
 
-export default Layout
+export default Layout;
